@@ -1,6 +1,8 @@
-## 3.0.2-dev
+## 3.1.0-dev
 
 - Require at least Dart `2.7.0`.
+- Added `JsonKey.ignoreEncode`
+- Added `JsonKey.ignoreDecode`
 
 ## 3.0.1
 

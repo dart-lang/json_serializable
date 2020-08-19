@@ -315,6 +315,73 @@ class IgnoredFieldClass {
   int ignoredNullField;
 }
 
+@ShouldGenerate(r'''
+EncodeIgnoredFieldClass _$EncodeIgnoredFieldClassFromJson(
+    Map<String, dynamic> json) {
+  return EncodeIgnoredFieldClass()
+    ..ignoredTrueField = json['ignoredTrueField'] as int
+    ..ignoredFalseField = json['ignoredFalseField'] as int
+    ..ignoredNullField = json['ignoredNullField'] as int;
+}
+
+Map<String, dynamic> _$EncodeIgnoredFieldClassToJson(
+        EncodeIgnoredFieldClass instance) =>
+    <String, dynamic>{
+      'ignoredFalseField': instance.ignoredFalseField,
+      'ignoredNullField': instance.ignoredNullField,
+    };
+''')
+@JsonSerializable()
+class EncodeIgnoredFieldClass {
+  @JsonKey(ignoreEncode: true)
+  int ignoredTrueField;
+
+  @JsonKey(ignoreEncode: false)
+  int ignoredFalseField;
+
+  int ignoredNullField;
+}
+
+@ShouldGenerate(r'''
+DecodeIgnoredFieldClass _$DecodeIgnoredFieldClassFromJson(
+    Map<String, dynamic> json) {
+  return DecodeIgnoredFieldClass()
+    ..ignoredFalseField = json['ignoredFalseField'] as int
+    ..ignoredNullField = json['ignoredNullField'] as int;
+}
+
+Map<String, dynamic> _$DecodeIgnoredFieldClassToJson(
+        DecodeIgnoredFieldClass instance) =>
+    <String, dynamic>{
+      'ignoredTrueField': instance.ignoredTrueField,
+      'ignoredFalseField': instance.ignoredFalseField,
+      'ignoredNullField': instance.ignoredNullField,
+    };
+''')
+@JsonSerializable()
+class DecodeIgnoredFieldClass {
+  @JsonKey(ignoreDecode: true)
+  int ignoredTrueField;
+
+  @JsonKey(ignoreDecode: false)
+  int ignoredFalseField;
+
+  int ignoredNullField;
+}
+
+@ShouldThrow(
+  'Cannot populate the required constructor argument: '
+  'ignoredTrueField. It is assigned to a decode-ignore field.',
+  element: '',
+)
+@JsonSerializable()
+class DecodeIgnoredFieldCtorClass {
+  @JsonKey(ignoreDecode: true)
+  int ignoredTrueField;
+
+  DecodeIgnoredFieldCtorClass(this.ignoredTrueField);
+}
+
 @ShouldThrow(
   'Cannot populate the required constructor argument: '
   'ignoredTrueField. It is assigned to an ignored field.',

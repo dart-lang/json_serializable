@@ -15,6 +15,7 @@ Person _$PersonFromJson(Map<String, dynamic> json) {
     dateOfBirth: json['dateOfBirth'] == null
         ? null
         : DateTime.parse(json['dateOfBirth'] as String),
+    timesAccessed: json['timesAccessed'] as int ?? 0,
   )
     ..order = json['order'] == null
         ? null
@@ -45,6 +46,7 @@ Map<String, dynamic> _$PersonToJson(Person instance) => <String, dynamic>{
           instance.houseMap?.map((k, e) => MapEntry(k, _$CategoryEnumMap[e])),
       'categoryCounts': instance.categoryCounts
           ?.map((k, e) => MapEntry(_$CategoryEnumMap[k], e)),
+      'readOnly': instance.readOnly,
     };
 
 T _$enumDecode<T>(

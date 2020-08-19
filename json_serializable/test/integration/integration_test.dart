@@ -42,6 +42,23 @@ void main() {
       roundTripPerson(person);
     });
 
+    test('ignore encode', () {
+      final person = Person(null, null, null, timesAccessed: 5);
+      expect(person.timesAccessed, 5);
+      final personJson = person.toJson();
+      expect(personJson.containsKey('timesAccessed'), false);
+      personJson['timesAccessed'] = 3;
+      final rtPerson = Person.fromJson(personJson);
+      expect(rtPerson.timesAccessed, 3);
+    });
+
+    test('ignore decode', () {
+      final person = Person(null, null, null, timesAccessed: 5);
+      expect(person.readOnly, 0);
+      person.readOnly = 1;
+      expect(Person.fromJson(person.toJson()).readOnly, 0);
+    });
+
     test('enum map', () {
       final person = Person(null, null, null)
         ..houseMap = {'bob': Category.strange}

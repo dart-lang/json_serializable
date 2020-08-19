@@ -19,6 +19,10 @@ class Person {
   final DateTime dateOfBirth;
   @JsonKey(name: '\$house')
   final Category house;
+  @JsonKey(defaultValue: 0, nullable: true, ignoreEncode: true)
+  final int timesAccessed;
+  @JsonKey(ignoreDecode: true)
+  int readOnly = 0;
 
   Order order;
 
@@ -28,7 +32,7 @@ class Person {
   Map<Category, int> categoryCounts;
 
   Person(this.firstName, this.lastName, this.house,
-      {this.middleName, this.dateOfBirth});
+      {this.middleName, this.dateOfBirth, this.timesAccessed});
 
   factory Person.fromJson(Map<String, dynamic> json) => _$PersonFromJson(json);
 

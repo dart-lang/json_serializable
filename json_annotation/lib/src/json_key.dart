@@ -38,8 +38,20 @@ class JsonKey {
   /// `true` if the generator should ignore this field completely.
   ///
   /// If `null` (the default) or `false`, the field will be considered for
-  /// serialization.
+  /// deserialization/serialization.
   final bool ignore;
+
+  /// `true` if the generator should ignore this field during deserialization
+  ///
+  /// If `null` (the default) or `false`, the field will be considered for
+  /// deserialization.
+  final bool ignoreDecode;
+
+  /// `true` if the generator should ignore this field during serialization
+  ///
+  /// If `null` (the default) or `false`, the field will be considered for
+  /// serialization.
+  final bool ignoreEncode;
 
   /// Whether the generator should include fields with `null` values in the
   /// serialized output.
@@ -111,6 +123,8 @@ class JsonKey {
     this.disallowNullValue,
     this.fromJson,
     this.ignore,
+    this.ignoreDecode,
+    this.ignoreEncode,
     this.includeIfNull,
     this.name,
     this.nullable,

@@ -1,5 +1,5 @@
 name: json_serializable
-version: 3.4.1-dev
+version: 3.5.0-dev
 description: >-
   Automatically generate code for converting to and from JSON by annotating
   Dart classes.
@@ -16,7 +16,7 @@ dependencies:
   # `json_annotation` properly constrains all features it provides.
   # For v3 only – allow a wide range since the only change was to REMOVE things
   # from json_annotation
-  json_annotation: '>=3.0.0 <3.1.0'
+  json_annotation: '>=3.1.0 <3.2.0'
   meta: ^1.1.0
   path: ^1.3.2
   source_gen: ^0.9.6

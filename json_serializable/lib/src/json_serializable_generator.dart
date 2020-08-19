@@ -125,6 +125,10 @@ class _GeneratorHelper extends HelperCore with EncodeHelper, DecodeHelper {
     // these fields.
     final unavailableReasons = <String, String>{};
 
+    // Two sets: one for fields unable during decode, one during encode
+    final unavailableDuringDecode = <String>{};
+    final unavailableDuringEncode = <String>{};
+
     final accessibleFields = sortedFields.fold<Map<String, FieldElement>>(
       <String, FieldElement>{},
       (map, field) {
@@ -140,6 +144,15 @@ class _GeneratorHelper extends HelperCore with EncodeHelper, DecodeHelper {
               'It is assigned to an ignored field.';
         } else {
           assert(!map.containsKey(field.name));
+          if (jsonKeyFor(field).ignoreEncode) {
+            unavailableReasons[field.name] =
+                'It is assigned to an encode-ignore field.';
+            unavailableDuringEncode.add(field.name);
+          } else if (jsonKeyFor(field).ignoreDecode) {
+            unavailableReasons[field.name] =
+                'It is assigned to a decode-ignore field.';
+            unavailableDuringDecode.add(field.name);
+          }
           map[field.name] = field;
         }
 
@@ -149,7 +162,11 @@ class _GeneratorHelper extends HelperCore with EncodeHelper, DecodeHelper {
 
     var accessibleFieldSet = accessibleFields.values.toSet();
     if (config.createFactory) {
-      final createResult = createFactory(accessibleFields, unavailableReasons);
+      final accessibleFieldsDecode =
+          Map<String, FieldElement>.from(accessibleFields);
+      unavailableDuringDecode.forEach(accessibleFieldsDecode.remove);
+      final createResult =
+          createFactory(accessibleFieldsDecode, unavailableReasons);
       yield createResult.output;
 
       accessibleFieldSet = accessibleFields.entries
@@ -174,6 +191,14 @@ class _GeneratorHelper extends HelperCore with EncodeHelper, DecodeHelper {
         return set;
       },
     );
+
+    // We completely rewrite the accessibleFieldSet to insert fields in the
+    // correct order
+    accessibleFieldSet = accessibleFields.values.where((field) {
+      return (accessibleFieldSet.contains(field) ||
+              unavailableDuringDecode.contains(field.name)) &&
+          !unavailableDuringEncode.contains(field.name);
+    }).toSet();
 
     if (config.createToJson) {
       yield* createToJson(accessibleFieldSet);
