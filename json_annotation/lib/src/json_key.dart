@@ -90,6 +90,13 @@ class JsonKey {
   /// Valid only on enum fields with a compatible enum value.
   final Object? unknownEnumValue;
 
+  /// `true` if this field should not be serialized.
+  ///
+  /// Fields annotated with [extra] set to true will not be included in JSON
+  /// output, and their values may be passed in as additional arguments
+  /// alongside JSON data in the deserialization function.
+  ///
+  /// If `null` (the default) or false, this argument has no effect.
   final bool? extra;
 
   /// Creates a new [JsonKey] instance.
