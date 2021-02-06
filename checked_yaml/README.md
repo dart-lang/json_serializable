@@ -7,7 +7,7 @@ the target type.
 
 [`package:json_serializable`] can generate classes that can parse the
 [`YamlMap`] type provided by [`package:yaml`] when `anyMap: true` is specified
-for the class annotation. 
+for the class annotation.
 
 ```dart
 @JsonSerializable(

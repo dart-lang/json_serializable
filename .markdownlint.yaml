@@ -1,0 +1,15 @@
+# Rules for markdownlint-cli2 (https://github.com/DavidAnson/markdownlint-cli2)
+# Based on markdownlint library (https://github.com/DavidAnson/markdownlint)
+# (same linter as vscode-markdownlint).
+# See rules descriptions here:
+# https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md
+#
+first-line-heading: false
+line_length:                # MD013 max line length
+  tables: false             # don't break tables
+  code_blocks: false        # don't break on code blocks
+  line_length: 80
+html:                       # MD033 no html
+  allowed_elements: [br]
+images: false               # MD045: image alt text
+no-blanks-blockquote: false # MD028
