@@ -4,7 +4,7 @@ environment:
   sdk: '>=2.12.0-0 <3.0.0'
 
 dependencies:
-  json_annotation: ^3.0.0
+  json_annotation: ^4.0.0
 
 dev_dependencies:
   build_runner: ^1.0.0
@@ -12,15 +12,9 @@ dev_dependencies:
   # Used by tests. Not required to use `json_serializable`.
   build_verify: ^1.0.0
 
-  json_serializable: ^3.2.0
+  json_serializable: ^4.0.0
 
   # Used by tests. Not required to use `json_serializable`.
-  path: ^1.8.0-nullsafety.3
+  path: ^1.8.0
   # Used by tests. Not required to use `json_serializable`.
-  test: ^1.16.0-nullsafety.9
-
-dependency_overrides:
-  json_annotation:
-    path: ../json_annotation
-  json_serializable:
-    path: ../json_serializable
+  test: ^1.16.0

@@ -1,5 +1,7 @@
-## 4.0.0-nullsafety.0
+## 4.0.0
 
+- Support null safety.
+- Requires Dart 2.12.
 - Updated `$checkedConvert` helper to support null-safety.
 - Removed the `nullable` field on `JsonKey` – the constructor entry still
   exists, but it's marked `@Deprecated`. The nullability of a field is now

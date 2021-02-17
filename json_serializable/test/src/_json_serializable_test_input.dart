@@ -7,10 +7,11 @@
 import 'dart:collection';
 
 import 'package:json_annotation/json_annotation.dart';
-import 'package:json_serializable/src/constants.dart';
 
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:source_gen_test/annotations.dart';
+
+part 'constants_copy.dart';
 
 part 'checked_test_input.dart';
 

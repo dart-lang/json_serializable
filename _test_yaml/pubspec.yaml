@@ -11,6 +11,7 @@ dev_dependencies:
   json_annotation: any
   json_serializable: any
   test: ^1.6.0
+  yaml: ^3.0.0
 
 dependency_overrides:
   checked_yaml:
@@ -19,6 +20,3 @@ dependency_overrides:
     path: ../json_annotation
   json_serializable:
     path: ../json_serializable
-
-  # For yaml!
-  yaml: 3.0.0-nullsafety.0

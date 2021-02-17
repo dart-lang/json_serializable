@@ -1,5 +1,6 @@
-## 4.0.0-nullsafety.0
+## 4.0.0
 
+- Requires Dart 2.12 or greater.
 - Generates null-safe code.
   - The `nullable` field on `JsonKey` ignored. The nullability of a field is now
     determined by the Dart type system.
