@@ -1,6 +1,6 @@
 # See https://github.com/google/mono_repo.dart for details on this file
 dart:
-- beta # change this to 1.12.0 when it's released!
+- 2.12.0
 - dev
 
 stages:

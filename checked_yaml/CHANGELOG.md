@@ -1,4 +1,11 @@
-## 2.0.0-dev
+## 2.0.1
+
+- If `CheckedFromJsonException` is caught for a key missing in the source map,
+  include those details in the thrown `ParsedYamlException`.
+
+- Correctly handle the case where `CheckedFromJsonException.message` is `null`.
+
+## 2.0.0
 
 - *BREAKING* `checkedYamlDecode` `sourceUrl` parameter is now a `Uri`.
 - Require at least Dart `2.12.0-0`.

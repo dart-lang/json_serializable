@@ -42,15 +42,16 @@ void main() {
     });
     test('with bad arguments', () {
       expect(
-          () => GenericClass<double, String>()
-            ..fieldT = (true as dynamic) as double,
-          throwsCastError);
+        () => GenericClass<double, String>()
+          ..fieldT = (true as dynamic) as double,
+        throwsTypeError,
+      );
     });
     test('with bad arguments', () {
       expect(
-          () =>
-              GenericClass<double, String>()..fieldS = (5 as dynamic) as String,
-          throwsCastError);
+        () => GenericClass<double, String>()..fieldS = (5 as dynamic) as String,
+        throwsTypeError,
+      );
     });
   });
 

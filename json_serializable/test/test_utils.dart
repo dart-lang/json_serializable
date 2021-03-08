@@ -9,8 +9,9 @@ import 'dart:convert';
 import 'package:stack_trace/stack_trace.dart';
 import 'package:test/test.dart';
 
-// ignore: deprecated_member_use
-final throwsCastError = throwsA(isA<CastError>());
+final throwsTypeError = throwsA(isTypeError);
+
+final isTypeError = isA<TypeError>();
 
 T roundTripObject<T>(T object, T Function(Map<String, dynamic> json) factory) {
   final data = loudEncode(object);

@@ -170,6 +170,35 @@ class FromDynamicCollection {
   late String iterableField;
 }
 
+String _fromNullableDynamicMap(Map? input) => '';
+
+String _fromNullableDynamicList(List? input) => 'null';
+
+String _fromNullableDynamicIterable(Iterable? input) => 'null';
+
+@ShouldGenerate(
+  r'''
+FromNullableDynamicCollection _$FromNullableDynamicCollectionFromJson(
+    Map<String, dynamic> json) {
+  return FromNullableDynamicCollection()
+    ..mapField = _fromNullableDynamicMap(json['mapField'] as Map?)
+    ..listField = _fromNullableDynamicList(json['listField'] as List?)
+    ..iterableField =
+        _fromNullableDynamicIterable(json['iterableField'] as List?);
+}
+''',
+  configurations: ['default'],
+)
+@JsonSerializable(createToJson: false)
+class FromNullableDynamicCollection {
+  @JsonKey(fromJson: _fromNullableDynamicMap)
+  late String mapField;
+  @JsonKey(fromJson: _fromNullableDynamicList)
+  late String listField;
+  @JsonKey(fromJson: _fromNullableDynamicIterable)
+  late String iterableField;
+}
+
 String _noArgs() => throw UnimplementedError();
 
 @ShouldThrow(

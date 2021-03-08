@@ -70,6 +70,27 @@ const invalidValueTypes = {
   'validatedPropertyNo42': true
 };
 
+const disallowNullKeys = {
+  'set',
+  'dynamicSet',
+  'objectSet',
+  'intSet',
+  'dateTimeSet',
+  'list',
+  'dynamicList',
+  'objectList',
+  'intList',
+  'dateTimeList',
+  'map',
+  'stringStringMap',
+  'dynamicIntMap',
+  'objectDateTimeMap',
+  'crazyComplex',
+  generatedLocalVarName,
+  'simpleObject',
+  'strictKeysObject',
+};
+
 Matcher checkedMatcher(String? expectedKey) => isA<CheckedFromJsonException>()
     .having((e) => e.className, 'className', 'KitchenSink')
     .having((e) => e.key, 'key', expectedKey);

@@ -21,7 +21,7 @@ class _DocBuilder extends Builder {
     final lockFileAssetId = AssetId(buildStep.inputId.package, 'pubspec.lock');
     final lockFileContent = await buildStep.readAsString(lockFileAssetId);
     final lockFileYaml =
-        loadYaml(lockFileContent, sourceUrl: lockFileAssetId.uri);
+        loadYaml(lockFileContent, sourceUrl: lockFileAssetId.uri) as YamlMap;
     final pkgMap = lockFileYaml['packages'] as YamlMap;
     final jsonAnnotationMap = pkgMap['json_annotation'] as YamlMap;
     final jsonAnnotationVersionString = jsonAnnotationMap['version'] as String;

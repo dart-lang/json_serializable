@@ -67,17 +67,20 @@ void main() {
     final encoded = _encode(collection);
 
     expect(
-        () => GenericCollection<CustomResult>.fromJson(
-            jsonDecode(encoded) as Map<String, dynamic>),
-        _throwsCastError);
+      () => GenericCollection<CustomResult>.fromJson(
+          jsonDecode(encoded) as Map<String, dynamic>),
+      _throwsTypeError,
+    );
     expect(
-        () => GenericCollection<int>.fromJson(
-            jsonDecode(encoded) as Map<String, dynamic>),
-        _throwsCastError);
+      () => GenericCollection<int>.fromJson(
+          jsonDecode(encoded) as Map<String, dynamic>),
+      _throwsTypeError,
+    );
     expect(
-        () => GenericCollection<String>.fromJson(
-            jsonDecode(encoded) as Map<String, dynamic>),
-        _throwsCastError);
+      () => GenericCollection<String>.fromJson(
+          jsonDecode(encoded) as Map<String, dynamic>),
+      _throwsTypeError,
+    );
 
     final collection2 =
         GenericCollection.fromJson(jsonDecode(encoded) as Map<String, dynamic>);
@@ -96,8 +99,7 @@ void main() {
   });
 }
 
-// ignore: deprecated_member_use
-final _throwsCastError = throwsA(isA<CastError>());
+final _throwsTypeError = throwsA(isA<TypeError>());
 
 String _encode(Object object) =>
     const JsonEncoder.withIndent(' ').convert(object);

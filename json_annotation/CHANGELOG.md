@@ -1,3 +1,8 @@
+## 4.0.1-dev
+
+- Fix a potential error with `checked: true` when `ArgumentError.message` is 
+  `null`.
+
 ## 4.0.0
 
 - Support null safety.

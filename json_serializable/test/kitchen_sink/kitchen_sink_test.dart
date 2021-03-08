@@ -68,7 +68,7 @@ void _nonNullableTests(KitchenSinkFactory factory) {
     if (factory.checked) {
       matcher = checkedMatcher('set');
     } else {
-      matcher = isA<TypeError>();
+      matcher = isTypeError;
     }
     expect(() => factory.fromJson(<String, dynamic>{}), throwsA(matcher));
   });
@@ -122,7 +122,9 @@ void _nullableTests(KitchenSinkFactory factory) {
         expect(
           encoded,
           containsPair(
-              key, _nonNullableFields.contains(key) ? isNotNull : isNull),
+            key,
+            _nonNullableFields.contains(key) ? isNotNull : isNull,
+          ),
         );
       }
     }
@@ -228,7 +230,7 @@ void _sharedTests(KitchenSinkFactory factory) {
   });
 }
 
-const _nonNullableFields = [
+const _nonNullableFields = {
   'dynamicIterable',
   'objectIterable',
   'intIterable',
@@ -251,11 +253,11 @@ const _nonNullableFields = [
   'val',
   'simpleObject',
   'strictKeysObject'
-];
+};
 
-const _encodedAsMapKeys = ['simpleObject', 'strictKeysObject'];
+const _encodedAsMapKeys = {'simpleObject', 'strictKeysObject'};
 
-const _iterableMapKeys = [
+const _iterableMapKeys = {
   'bigIntMap',
   'crazyComplex',
   'datetime-iterable',
@@ -280,4 +282,4 @@ const _iterableMapKeys = [
   'set',
   'stringStringMap',
   generatedLocalVarName,
-];
+};

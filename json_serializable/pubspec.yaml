@@ -1,15 +1,15 @@
 name: json_serializable
-version: 4.0.0
+version: 4.0.2
 description: >-
   Automatically generate code for converting to and from JSON by annotating
   Dart classes.
-repository: https://github.com/google/json_serializable.dart
+repository: https://github.com/google/json_serializable.dart/tree/master/json_serializable
 environment:
   # Keeping this <2.12.0 because the code is not null safe – yet!
   sdk: '>=2.11.99 <3.0.0'
 
 dependencies:
-  analyzer: ^0.41.2
+  analyzer: '>=0.41.2 <2.0.0'
   build: ^1.6.1
   build_config: ^0.4.4
 

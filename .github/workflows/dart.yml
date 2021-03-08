@@ -1,4 +1,4 @@
-# Created with package:mono_repo v3.4.6
+# Created with package:mono_repo v3.4.7
 name: Dart CI
 on:
   push:
@@ -27,32 +27,32 @@ jobs:
           restore-keys: |
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
-      - uses: dart-lang/setup-dart@v0.3
+      - uses: dart-lang/setup-dart@v1.0
         with:
           sdk: stable
       - id: checkout
         uses: actions/checkout@v2
       - name: mono_repo self validate
-        run: pub global activate mono_repo 3.4.6
+        run: pub global activate mono_repo 3.4.7
       - name: mono_repo self validate
         run: pub global run mono_repo generate --validate
   job_002:
-    name: "analyzer_and_format; Dart beta; PKGS: _test_yaml, checked_yaml, example, json_annotation, json_serializable; `dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos .`"
+    name: "analyzer_and_format; Dart 2.12.0; PKGS: _test_yaml, checked_yaml, example, json_annotation, json_serializable; `dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos .`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
         uses: actions/cache@v2
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;dart:beta;packages:_test_yaml-checked_yaml-example-json_annotation-json_serializable;commands:dartfmt-dartanalyzer"
+          key: "os:ubuntu-latest;pub-cache-hosted;dart:2.12.0;packages:_test_yaml-checked_yaml-example-json_annotation-json_serializable;commands:dartfmt-dartanalyzer"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;dart:beta;packages:_test_yaml-checked_yaml-example-json_annotation-json_serializable
-            os:ubuntu-latest;pub-cache-hosted;dart:beta
+            os:ubuntu-latest;pub-cache-hosted;dart:2.12.0;packages:_test_yaml-checked_yaml-example-json_annotation-json_serializable
+            os:ubuntu-latest;pub-cache-hosted;dart:2.12.0
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
-      - uses: dart-lang/setup-dart@v0.3
+      - uses: dart-lang/setup-dart@v1.0
         with:
-          sdk: beta
+          sdk: "2.12.0"
       - id: checkout
         uses: actions/checkout@v2
       - id: _test_yaml_pub_upgrade
@@ -134,7 +134,7 @@ jobs:
             os:ubuntu-latest;pub-cache-hosted;dart:dev
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
-      - uses: dart-lang/setup-dart@v0.3
+      - uses: dart-lang/setup-dart@v1.0
         with:
           sdk: dev
       - id: checkout
@@ -205,22 +205,22 @@ jobs:
         working-directory: json_serializable
         run: dartanalyzer --fatal-infos .
   job_004:
-    name: "unit_test; Dart beta; PKGS: _test_yaml, checked_yaml, example, json_serializable; `pub run test`"
+    name: "unit_test; Dart 2.12.0; PKGS: _test_yaml, checked_yaml, example, json_serializable; `pub run test`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
         uses: actions/cache@v2
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;dart:beta;packages:_test_yaml-checked_yaml-example-json_serializable;commands:test_0"
+          key: "os:ubuntu-latest;pub-cache-hosted;dart:2.12.0;packages:_test_yaml-checked_yaml-example-json_serializable;commands:test_0"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;dart:beta;packages:_test_yaml-checked_yaml-example-json_serializable
-            os:ubuntu-latest;pub-cache-hosted;dart:beta
+            os:ubuntu-latest;pub-cache-hosted;dart:2.12.0;packages:_test_yaml-checked_yaml-example-json_serializable
+            os:ubuntu-latest;pub-cache-hosted;dart:2.12.0
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
-      - uses: dart-lang/setup-dart@v0.3
+      - uses: dart-lang/setup-dart@v1.0
         with:
-          sdk: beta
+          sdk: "2.12.0"
       - id: checkout
         uses: actions/checkout@v2
       - id: _test_yaml_pub_upgrade
@@ -277,7 +277,7 @@ jobs:
             os:ubuntu-latest;pub-cache-hosted;dart:dev
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
-      - uses: dart-lang/setup-dart@v0.3
+      - uses: dart-lang/setup-dart@v1.0
         with:
           sdk: dev
       - id: checkout
@@ -323,22 +323,22 @@ jobs:
       - job_002
       - job_003
   job_006:
-    name: "unit_test; Dart beta; PKG: json_serializable; `pub run test -p chrome`"
+    name: "unit_test; Dart 2.12.0; PKG: json_serializable; `pub run test -p chrome`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
         uses: actions/cache@v2
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;dart:beta;packages:json_serializable;commands:test_2"
+          key: "os:ubuntu-latest;pub-cache-hosted;dart:2.12.0;packages:json_serializable;commands:test_2"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;dart:beta;packages:json_serializable
-            os:ubuntu-latest;pub-cache-hosted;dart:beta
+            os:ubuntu-latest;pub-cache-hosted;dart:2.12.0;packages:json_serializable
+            os:ubuntu-latest;pub-cache-hosted;dart:2.12.0
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
-      - uses: dart-lang/setup-dart@v0.3
+      - uses: dart-lang/setup-dart@v1.0
         with:
-          sdk: beta
+          sdk: "2.12.0"
       - id: checkout
         uses: actions/checkout@v2
       - id: json_serializable_pub_upgrade
@@ -368,7 +368,7 @@ jobs:
             os:ubuntu-latest;pub-cache-hosted;dart:dev
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
-      - uses: dart-lang/setup-dart@v0.3
+      - uses: dart-lang/setup-dart@v1.0
         with:
           sdk: dev
       - id: checkout
@@ -387,22 +387,22 @@ jobs:
       - job_002
       - job_003
   job_008:
-    name: "ensure_build; Dart beta; PKGS: _test_yaml, checked_yaml, example, json_serializable; `pub run test --run-skipped -t presubmit-only test/ensure_build_test.dart`"
+    name: "ensure_build; Dart 2.12.0; PKGS: _test_yaml, checked_yaml, example, json_serializable; `pub run test --run-skipped -t presubmit-only test/ensure_build_test.dart`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
         uses: actions/cache@v2
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;dart:beta;packages:_test_yaml-checked_yaml-example-json_serializable;commands:test_1"
+          key: "os:ubuntu-latest;pub-cache-hosted;dart:2.12.0;packages:_test_yaml-checked_yaml-example-json_serializable;commands:test_1"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;dart:beta;packages:_test_yaml-checked_yaml-example-json_serializable
-            os:ubuntu-latest;pub-cache-hosted;dart:beta
+            os:ubuntu-latest;pub-cache-hosted;dart:2.12.0;packages:_test_yaml-checked_yaml-example-json_serializable
+            os:ubuntu-latest;pub-cache-hosted;dart:2.12.0
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
-      - uses: dart-lang/setup-dart@v0.3
+      - uses: dart-lang/setup-dart@v1.0
         with:
-          sdk: beta
+          sdk: "2.12.0"
       - id: checkout
         uses: actions/checkout@v2
       - id: _test_yaml_pub_upgrade
@@ -463,7 +463,7 @@ jobs:
             os:ubuntu-latest;pub-cache-hosted;dart:dev
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
-      - uses: dart-lang/setup-dart@v0.3
+      - uses: dart-lang/setup-dart@v1.0
         with:
           sdk: dev
       - id: checkout

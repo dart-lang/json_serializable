@@ -28,13 +28,16 @@ void _anyMapTests(KitchenSinkFactory factory) {
     for (final e in invalidValueTypes.entries) {
       _testBadValue(e.key, e.value, factory, false);
     }
+    for (final e in disallowNullKeys) {
+      _testBadValue(e, null, factory, false);
+    }
     for (final e in _invalidCheckedValues.entries) {
       _testBadValue(e.key, e.value, factory, true);
     }
   });
 }
 
-void _testBadValue(String key, Object badValue, KitchenSinkFactory factory,
+void _testBadValue(String key, Object? badValue, KitchenSinkFactory factory,
     bool checkedAssignment) {
   final matcher = _getMatcher(factory.checked, key, checkedAssignment);
 
@@ -65,8 +68,7 @@ Matcher _getMatcher(bool checked, String? expectedKey, bool checkedAssignment) {
     innerMatcher = checkedMatcher(expectedKey);
   } else {
     innerMatcher = anyOf(
-      _isACastError,
-      _isATypeError,
+      isTypeError,
       _isAUnrecognizedKeysException(
         'Unrecognized keys: [invalid_key]; supported keys: '
         '[value, custom_field]',
@@ -86,7 +88,7 @@ Matcher _getMatcher(bool checked, String? expectedKey, bool checkedAssignment) {
           break;
         case 'intIterable':
         case 'datetime-iterable':
-          innerMatcher = _isACastError;
+          innerMatcher = isTypeError;
           break;
         default:
           throw StateError('Not expected! - $expectedKey');
@@ -96,11 +98,6 @@ Matcher _getMatcher(bool checked, String? expectedKey, bool checkedAssignment) {
 
   return throwsA(innerMatcher);
 }
-
-final _isATypeError = isA<TypeError>();
-
-// ignore: deprecated_member_use
-final _isACastError = isA<CastError>();
 
 Matcher _isAUnrecognizedKeysException(expectedMessage) =>
     isA<UnrecognizedKeysException>()

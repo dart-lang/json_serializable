@@ -17,7 +17,6 @@ part 'example.g.dart';
 class Configuration {
   @JsonKey(required: true)
   final String name;
-  @JsonKey(required: true)
   final int count;
 
   Configuration({required this.name, required this.count}) {

@@ -31,7 +31,7 @@ void main() {
     test('round trip null', () {
       expect(
         () => loudEncode(SimpleClass.fromJson({})),
-        throwsA(isA<TypeError>()),
+        throwsTypeError,
       );
     });
 

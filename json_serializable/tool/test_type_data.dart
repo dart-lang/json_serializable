@@ -139,7 +139,8 @@ class TestTypeData {
         .replaceAll('non-nullable', 'nullable')
         .replaceAll('SimpleClass', 'SimpleClassNullable');
 
-    final thrownError = type == customEnumType ? 'ArgumentError' : 'TypeError';
+    final thrownError =
+        type == customEnumType ? 'throwsArgumentError' : 'throwsTypeError';
 
     final newGroupContent = groupContent.replaceAll(
       r'''
@@ -154,7 +155,7 @@ class TestTypeData {
       '''
       expect(
         () => loudEncode(SimpleClass.fromJson({})),
-        throwsA(isA<$thrownError>()),
+        $thrownError,
       );''',
     );
 

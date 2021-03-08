@@ -1,11 +1,11 @@
 name: json_annotation
-version: 4.0.0
+version: 4.0.1-dev
 description: >-
   Classes and helper functions that support JSON code generation via the
   `json_serializable` package.
 repository: https://github.com/google/json_serializable.dart
 environment:
-  sdk: '>=2.12.0-0 <3.0.0'
+  sdk: '>=2.12.0 <3.0.0'
 
 # When changing JsonSerializable class.
 # dev_dependencies:

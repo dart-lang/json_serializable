@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// @dart=2.9
-
 import 'dart:convert';
 import 'dart:io';
 
@@ -61,9 +59,13 @@ $errorContent
 ```'''));
 
     final proc = await TestProcess.start(
-        Platform.resolvedExecutable, [_examplePath, inputContent]);
+      Platform.resolvedExecutable,
+      [_examplePath, inputContent],
+    );
     await expectLater(
-        proc.stderr, emitsInOrder(LineSplitter.split(errorContent)));
+      proc.stderr,
+      emitsInOrder(LineSplitter.split(errorContent)),
+    );
 
     await proc.shouldExit(isNot(0));
   });

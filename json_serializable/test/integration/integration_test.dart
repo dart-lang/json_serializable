@@ -248,7 +248,7 @@ void main() {
         'ints': [3.14, 0],
       };
 
-      expect(() => Numbers.fromJson(value), throwsCastError);
+      expect(() => Numbers.fromJson(value), throwsTypeError);
     });
   });
 

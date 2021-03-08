@@ -43,10 +43,12 @@ String asStatement(DartType type) {
     return '';
   }
 
+  final nullableSuffix = type.isNullableType ? '?' : '';
+
   if (coreIterableTypeChecker.isAssignableFromType(type)) {
     final itemType = coreIterableGenericType(type);
     if (isLikeDynamic(itemType)) {
-      return ' as List';
+      return ' as List$nullableSuffix';
     }
   }
 
@@ -55,7 +57,7 @@ String asStatement(DartType type) {
     assert(args.length == 2);
 
     if (args.every(isLikeDynamic)) {
-      return ' as Map';
+      return ' as Map$nullableSuffix';
     }
   }
 

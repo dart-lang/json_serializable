@@ -75,12 +75,18 @@ ParsedYamlException toParsedYamlException(
       innerError: exception,
     );
   } else {
-    final yamlValue = yamlMap.nodes[exception.key];
-
-    if (yamlValue == null) {
-      // TODO: test this case!
+    if (exception.key == null) {
       return ParsedYamlException(
-        exception.message!,
+        exception.message ?? 'There was an error parsing the map.',
+        yamlMap,
+        innerError: exception,
+      );
+    } else if (!yamlMap.containsKey(exception.key)) {
+      return ParsedYamlException(
+        [
+          'Missing key "${exception.key}".',
+          if (exception.message != null) exception.message!,
+        ].join(' '),
         yamlMap,
         innerError: exception,
       );
@@ -91,7 +97,7 @@ ParsedYamlException toParsedYamlException(
       }
       return ParsedYamlException(
         message,
-        yamlValue,
+        yamlMap.nodes[exception.key] ?? yamlMap,
         innerError: exception,
       );
     }
