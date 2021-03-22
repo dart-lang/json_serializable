@@ -93,6 +93,7 @@ is generated:
 |                            |                                             | [JsonKey.required]          |
 |                            |                                             | [JsonKey.toJson]            |
 |                            |                                             | [JsonKey.unknownEnumValue]  |
+|                            |                                             | [JsonKey.extra]             |
 
 [JsonSerializable.anyMap]: https://pub.dev/documentation/json_annotation/4.0.1/json_annotation/JsonSerializable/anyMap.html
 [JsonSerializable.checked]: https://pub.dev/documentation/json_annotation/4.0.1/json_annotation/JsonSerializable/checked.html
@@ -113,6 +114,7 @@ is generated:
 [JsonKey.required]: https://pub.dev/documentation/json_annotation/4.0.1/json_annotation/JsonKey/required.html
 [JsonKey.toJson]: https://pub.dev/documentation/json_annotation/4.0.1/json_annotation/JsonKey/toJson.html
 [JsonKey.unknownEnumValue]: https://pub.dev/documentation/json_annotation/4.0.1/json_annotation/JsonKey/unknownEnumValue.html
+[JsonKey.extra]: https://pub.dev/documentation/json_annotation/latest/json_annotation/JsonKey/extra.html
 
 > Note: every `JsonSerializable` field is configurable via `build.yaml` –
 > see the table for the corresponding key.

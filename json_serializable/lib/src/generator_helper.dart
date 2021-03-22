@@ -58,6 +58,8 @@ class GeneratorHelper extends HelperCore with EncodeHelper, DecodeHelper {
     // these fields.
     final unavailableReasons = <String, String>{};
 
+    final extras = <FieldElement>[];
+
     final accessibleFields = sortedFields.fold<Map<String, FieldElement>>(
       <String, FieldElement>{},
       (map, field) {
@@ -68,21 +70,26 @@ class GeneratorHelper extends HelperCore with EncodeHelper, DecodeHelper {
           unavailableReasons[field.name] =
               'Setter-only properties are not supported.';
           log.warning('Setters are ignored: ${element.name}.${field.name}');
-        } else if (jsonKeyFor(field).ignore) {
-          unavailableReasons[field.name] =
-              'It is assigned to an ignored field.';
         } else {
-          assert(!map.containsKey(field.name));
-          map[field.name] = field;
+          final jsonKey = jsonKeyFor(field);
+          if (jsonKey.ignore) {
+            unavailableReasons[field.name] =
+                'It is assigned to an ignored field.';
+          } else if (jsonKey.extra) {
+            extras.add(field);
+          } else {
+            assert(!map.containsKey(field.name));
+            map[field.name] = field;
+          }
         }
-
         return map;
       },
     );
 
     var accessibleFieldSet = accessibleFields.values.toSet();
     if (config.createFactory) {
-      final createResult = createFactory(accessibleFields, unavailableReasons);
+      final createResult =
+          createFactory(accessibleFields, unavailableReasons, extras);
       yield createResult.output;
 
       accessibleFieldSet = accessibleFields.entries

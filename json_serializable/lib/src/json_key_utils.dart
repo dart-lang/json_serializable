@@ -181,6 +181,7 @@ KeyConfig _from(FieldElement element, ClassConfig classAnnotation) {
     name: obj.read('name').literalValue as String?,
     required: obj.read('required').literalValue as bool?,
     unknownEnumValue: _annotationValue('unknownEnumValue', mustBeEnum: true),
+    extra: obj.read('extra').literalValue as bool,
   );
 }
 
@@ -194,6 +195,7 @@ KeyConfig _populateJsonKey(
   String? name,
   bool? required,
   Object? unknownEnumValue,
+  bool? extra,
 }) {
   if (disallowNullValue == true) {
     if (includeIfNull == true) {
@@ -213,6 +215,7 @@ KeyConfig _populateJsonKey(
     name: _encodedFieldName(classAnnotation, name, element),
     required: required ?? false,
     unknownEnumValue: unknownEnumValue,
+    extra: extra ?? false,
   );
 }
 
