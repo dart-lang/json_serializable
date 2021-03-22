@@ -20,6 +20,8 @@ class KeyConfig {
 
   final Object? unknownEnumValue;
 
+  final bool extra;
+
   KeyConfig({
     required this.defaultValue,
     required this.disallowNullValue,
@@ -28,6 +30,7 @@ class KeyConfig {
     required this.name,
     required this.required,
     required this.unknownEnumValue,
+    required this.extra,
   });
 }
 
