@@ -6,6 +6,7 @@ export 'src/shared_checkers.dart' show simpleJsonTypeChecker, typeArgumentsOf;
 export 'src/type_helper.dart'
     show TypeHelperContext, TypeHelperContextWithConfig, TypeHelper;
 export 'src/type_helpers/big_int_helper.dart';
+export 'src/type_helpers/config_types.dart';
 export 'src/type_helpers/convert_helper.dart';
 export 'src/type_helpers/date_time_helper.dart';
 export 'src/type_helpers/duration_helper.dart';

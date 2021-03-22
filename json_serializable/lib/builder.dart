@@ -34,7 +34,7 @@ Builder jsonSerializable(BuilderOptions options) {
       lines.add('There is a problem with "${e.key}".');
     }
     if (e.message != null) {
-      lines.add(e.message);
+      lines.add(e.message!);
     } else if (e.innerError != null) {
       lines.add(e.innerError.toString());
     }

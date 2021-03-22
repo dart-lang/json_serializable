@@ -30,7 +30,7 @@ abstract class EncodeHelper implements HelperCore {
         final helperName = toJsonForType(
           arg.instantiate(nullabilitySuffix: NullabilitySuffix.none),
         );
-        buffer.write(',Object Function(${arg.name} value) $helperName');
+        buffer.write(',Object? Function(${arg.name} value) $helperName');
       }
       if (element.typeParameters.isNotEmpty) {
         buffer.write(',');

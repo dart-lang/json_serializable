@@ -1,5 +1,3 @@
-import 'package:meta/meta.dart';
-
 import 'shared.dart';
 
 const customEnumType = 'EnumType';
@@ -8,15 +6,15 @@ const _annotationImport =
     "import 'package:json_annotation/json_annotation.dart';";
 
 class TestTypeData {
-  final String defaultExpression;
-  final String jsonExpression;
-  final String altJsonExpression;
+  final String? defaultExpression;
+  final String? jsonExpression;
+  final String? altJsonExpression;
   final Set<String> genericArgs;
 
   const TestTypeData({
     this.defaultExpression,
-    String jsonExpression,
-    @required String altJsonExpression,
+    String? jsonExpression,
+    required String? altJsonExpression,
     this.genericArgs = const {},
   })  : jsonExpression = jsonExpression ?? defaultExpression,
         altJsonExpression =
@@ -110,7 +108,7 @@ class TestTypeData {
     final defaultReplacement = defaultNotSupported
         ? ''
         : _defaultSource
-            .replaceFirst('42', defaultExpression)
+            .replaceFirst('42', defaultExpression!)
             .replaceFirst('dynamic', type);
 
     yield Replacement(

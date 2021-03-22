@@ -12,7 +12,7 @@ class DurationHelper extends TypeHelper {
   const DurationHelper();
 
   @override
-  String serialize(
+  String? serialize(
     DartType targetType,
     String expression,
     TypeHelperContext context,
@@ -33,7 +33,7 @@ class DurationHelper extends TypeHelper {
   }
 
   @override
-  String deserialize(
+  String? deserialize(
     DartType targetType,
     String expression,
     TypeHelperContext context,

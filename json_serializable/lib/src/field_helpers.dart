@@ -17,9 +17,9 @@ class _FieldSet implements Comparable<_FieldSet> {
   _FieldSet._(this.field, this.sortField)
       : assert(field.name == sortField.name);
 
-  factory _FieldSet(FieldElement classField, FieldElement superField) {
+  factory _FieldSet(FieldElement? classField, FieldElement? superField) {
     // At least one of these will != null, perhaps both.
-    final fields = [classField, superField].where((fe) => fe != null).toList();
+    final fields = [classField, superField].whereType<FieldElement>().toList();
 
     // Prefer the class field over the inherited field when sorting.
     final sortField = fields.first;
@@ -58,9 +58,9 @@ class _FieldSet implements Comparable<_FieldSet> {
     /// Returns the offset of given field/property in its source file – with a
     /// preference for the getter if it's defined.
     int _offsetFor(FieldElement e) {
-      if (e.getter != null && e.getter.nameOffset != e.nameOffset) {
+      if (e.getter != null && e.getter!.nameOffset != e.nameOffset) {
         assert(e.nameOffset == -1);
-        return e.getter.nameOffset;
+        return e.getter!.nameOffset;
       }
       return e.nameOffset;
     }

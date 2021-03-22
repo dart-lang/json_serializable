@@ -11,6 +11,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:json_serializable/json_serializable.dart';
 import 'package:json_serializable/src/constants.dart';
 import 'package:json_serializable/src/type_helper.dart';
+import 'package:json_serializable/src/type_helpers/config_types.dart';
 import 'package:path/path.dart' as p;
 import 'package:source_gen/source_gen.dart';
 import 'package:source_gen_test/source_gen_test.dart';
@@ -18,7 +19,7 @@ import 'package:test/test.dart';
 
 import 'shared_config.dart';
 
-LibraryReader _libraryReader;
+late LibraryReader _libraryReader;
 
 Future<void> main() async {
   initializeBuildLogTracking();
@@ -31,12 +32,12 @@ Future<void> main() async {
   );
 
   group('without wrappers', () {
-    _registerTests(JsonSerializable.defaults);
+    _registerTests(ClassConfig.defaults);
   });
 
   group('configuration', () {
     Future<void> runWithConfigAndLogger(
-        JsonSerializable config, String className) async {
+        JsonSerializable? config, String className) async {
       await generateForElement(
           JsonSerializableGenerator(
               config: config, typeHelpers: const [_ConfigLogger()]),
@@ -214,7 +215,7 @@ class _ConfigLogger implements TypeHelper<TypeHelperContextWithConfig> {
   const _ConfigLogger();
 
   @override
-  Object deserialize(
+  Object? deserialize(
     DartType targetType,
     String expression,
     TypeHelperContextWithConfig context,
@@ -225,7 +226,7 @@ class _ConfigLogger implements TypeHelper<TypeHelperContextWithConfig> {
   }
 
   @override
-  Object serialize(DartType targetType, String expression,
+  Object? serialize(DartType targetType, String expression,
       TypeHelperContextWithConfig context) {
     configurations.add(context.config);
     return null;

@@ -60,8 +60,8 @@ abstract class DecodeHelper implements HelperCore {
     buffer.write(') {\n');
 
     String deserializeFun(String paramOrFieldName,
-            {ParameterElement ctorParam}) =>
-        _deserializeForField(accessibleFields[paramOrFieldName],
+            {ParameterElement? ctorParam}) =>
+        _deserializeForField(accessibleFields[paramOrFieldName]!,
             ctorParam: ctorParam);
 
     final extraNames = [for (final extra in extras) extra.name];
@@ -97,12 +97,12 @@ abstract class DecodeHelper implements HelperCore {
 
       for (final field in data.fieldsToSet) {
         buffer.writeln();
-        final safeName = safeNameAccess(accessibleFields[field]);
+        final safeName = safeNameAccess(accessibleFields[field]!);
         buffer
           ..write('''
     \$checkedConvert(json, $safeName, (v) => ''')
           ..write('val.$field = ')
-          ..write(_deserializeForField(accessibleFields[field],
+          ..write(_deserializeForField(accessibleFields[field]!,
               checkedProperty: true))
           ..write(');');
       }
@@ -111,7 +111,7 @@ abstract class DecodeHelper implements HelperCore {
   }''');
 
       final fieldKeyMap = Map.fromEntries(data.usedCtorParamsAndFields
-          .map((k) => MapEntry(k, nameAccess(accessibleFields[k])))
+          .map((k) => MapEntry(k, nameAccess(accessibleFields[k]!)))
           .where((me) => me.key != me.value));
 
       String fieldKeyMapArg;
@@ -176,10 +176,9 @@ abstract class DecodeHelper implements HelperCore {
 
   String _deserializeForField(
     FieldElement field, {
-    ParameterElement ctorParam,
-    bool checkedProperty,
+    ParameterElement? ctorParam,
+    bool checkedProperty = false,
   }) {
-    checkedProperty ??= false;
     final jsonKeyName = safeNameAccess(field);
     final targetType = ctorParam?.type ?? field.type;
     final contextHelper = getHelperContext(field);

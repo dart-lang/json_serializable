@@ -194,6 +194,7 @@ class JsonSerializable {
 
   /// An instance of [JsonSerializable] with all fields set to their default
   /// values.
+  @Deprecated('Was only ever included to support builder infrastructure.')
   static const defaults = JsonSerializable(
     anyMap: false,
     checked: false,
@@ -212,6 +213,7 @@ class JsonSerializable {
   ///
   /// Otherwise, the returned value has the default value as defined in
   /// [defaults].
+  @Deprecated('Was only ever included to support builder infrastructure.')
   JsonSerializable withDefaults() => JsonSerializable(
         anyMap: anyMap ?? defaults.anyMap,
         checked: checked ?? defaults.checked,

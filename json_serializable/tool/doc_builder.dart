@@ -33,14 +33,19 @@ class _DocBuilder extends Builder {
         ? 'latest'
         : jsonAnnotationVersion.toString();
 
-    final lib = LibraryReader(await buildStep.resolver.libraryFor(
-        AssetId.resolve('package:json_annotation/json_annotation.dart')));
+    final lib = LibraryReader(
+      await buildStep.resolver.libraryFor(
+        AssetId.resolve(
+          Uri.parse('package:json_annotation/json_annotation.dart'),
+        ),
+      ),
+    );
 
     final descriptionMap = <String, _FieldInfo>{};
 
     for (var className in _annotationClasses) {
       for (var fe in lib
-          .findType(className)
+          .findType(className)!
           .fields
           .where((fe) => !fe.isStatic && !fe.hasDeprecated)) {
         descriptionMap[fe.name] =
@@ -116,9 +121,9 @@ String _link(String version, String owner, String name) =>
     'json_annotation/$owner/$name.html';
 
 class _FieldInfo implements Comparable<_FieldInfo> {
-  final FieldElement _keyField, _classField;
+  final FieldElement? _keyField, _classField;
 
-  String get name => _keyField?.name ?? _classField.name;
+  String get name => _keyField?.name ?? _classField!.name;
 
   String get classAnnotationName {
     if (_classField == null) {
@@ -139,15 +144,15 @@ class _FieldInfo implements Comparable<_FieldInfo> {
       return '';
     }
 
-    return snakeCase(_classField.name);
+    return snakeCase(_classField!.name);
   }
 
   _FieldInfo(this._keyField, this._classField);
 
-  static _FieldInfo update(FieldElement field, _FieldInfo existing) {
+  static _FieldInfo update(FieldElement field, _FieldInfo? existing) {
     final parent = field.enclosingElement.name;
 
-    FieldElement keyField, classField;
+    FieldElement? keyField, classField;
     switch (parent) {
       case _jsonSerializable:
         classField = field;

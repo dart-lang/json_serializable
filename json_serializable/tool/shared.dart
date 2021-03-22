@@ -21,7 +21,7 @@ Builder validate(String builderName, Builder builder) {
 
   final extensions = Set<String>.from(buildYaml['.dart'] as YamlList);
 
-  final codedExtensions = builder.buildExtensions['.dart'].toSet();
+  final codedExtensions = builder.buildExtensions['.dart']!.toSet();
 
   final tooMany = extensions.difference(codedExtensions);
   if (tooMany.isNotEmpty) {

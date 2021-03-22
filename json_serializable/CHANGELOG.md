@@ -1,3 +1,19 @@
+## 4.1.0
+
+- Implementation is now null-safe.
+- Correctly handle nullable generic fields (`T?`) with
+  `genericArgumentFactories`.
+
+- `type_helper.dart` - **BREAKING changes**
+  - The API is now null-safe.
+  - new `KeyConfig` class replaces `JsonKey`.
+  - new `ClassConfig` class replaces `JsonSerializable`.
+
+## 4.0.3
+
+- Correctly handle nullable values with `genericArgumentFactories`.
+- Require the latest `package:build`.
+
 ## 4.0.2
 
 - Correctly handle nullable `Map` and `Iterable` JSON types exposed by both

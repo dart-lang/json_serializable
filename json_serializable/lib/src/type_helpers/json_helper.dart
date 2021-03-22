@@ -5,12 +5,14 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
+import 'package:collection/collection.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:source_gen/source_gen.dart';
 
 import '../shared_checkers.dart';
 import '../type_helper.dart';
 import '../utils.dart';
+import 'config_types.dart';
 import 'generic_factory_helper.dart';
 
 const _helperLambdaParam = 'value';
@@ -23,7 +25,7 @@ class JsonHelper extends TypeHelper<TypeHelperContextWithConfig> {
   /// By default, JSON encoding in from `dart:convert` calls `toJson()` on
   /// provided objects.
   @override
-  String serialize(
+  String? serialize(
     DartType targetType,
     String expression,
     TypeHelperContextWithConfig context,
@@ -62,7 +64,7 @@ class JsonHelper extends TypeHelper<TypeHelperContextWithConfig> {
   }
 
   @override
-  String deserialize(
+  String? deserialize(
     DartType targetType,
     String expression,
     TypeHelperContextWithConfig context,
@@ -72,11 +74,10 @@ class JsonHelper extends TypeHelper<TypeHelperContextWithConfig> {
       return null;
     }
 
-    final type = targetType as InterfaceType;
-    final classElement = type.element;
+    final classElement = targetType.element;
 
     final fromJsonCtor = classElement.constructors
-        .singleWhere((ce) => ce.name == 'fromJson', orElse: () => null);
+        .singleWhereOrNull((ce) => ce.name == 'fromJson');
 
     var output = expression;
     if (fromJsonCtor != null) {
@@ -95,7 +96,7 @@ class JsonHelper extends TypeHelper<TypeHelperContextWithConfig> {
       var asCastType = positionalParams.first.type;
 
       if (asCastType is InterfaceType) {
-        final instantiated = _instantiate(asCastType as InterfaceType, type);
+        final instantiated = _instantiate(asCastType, targetType);
         if (instantiated != null) {
           asCastType = instantiated;
         }
@@ -108,14 +109,14 @@ class JsonHelper extends TypeHelper<TypeHelperContextWithConfig> {
         ..._helperParams(
           context.deserialize,
           _decodeHelper,
-          targetType as InterfaceType,
+          targetType,
           positionalParams.skip(1),
           fromJsonCtor,
         ),
       ];
 
       output = args.join(', ');
-    } else if (_annotation(context.config, type)?.createFactory == true) {
+    } else if (_annotation(context.config, targetType)?.createFactory == true) {
       if (context.config.anyMap) {
         output += ' as Map';
       } else {
@@ -135,7 +136,7 @@ class JsonHelper extends TypeHelper<TypeHelperContextWithConfig> {
 }
 
 List<String> _helperParams(
-  Object Function(DartType, String) execute,
+  Object? Function(DartType, String) execute,
   TypeParameterType Function(ParameterElement, Element) paramMapper,
   InterfaceType type,
   Iterable<ParameterElement> positionalParams,
@@ -172,7 +173,7 @@ TypeParameterType _decodeHelper(
       type.normalParameterTypes.length == 1) {
     final funcReturnType = type.returnType;
 
-    if (param.name == fromJsonForName(funcReturnType.element.name)) {
+    if (param.name == fromJsonForName(funcReturnType.element!.name!)) {
       final funcParamType = type.normalParameterTypes.single;
 
       if ((funcParamType.isDartCoreObject && funcParamType.isNullableType) ||
@@ -203,7 +204,7 @@ TypeParameterType _encodeHelper(
       type.normalParameterTypes.length == 1) {
     final funcParamType = type.normalParameterTypes.single;
 
-    if (param.name == toJsonForName(funcParamType.element.name)) {
+    if (param.name == toJsonForName(funcParamType.element!.name!)) {
       if (funcParamType is TypeParameterType) {
         return funcParamType;
       }
@@ -219,7 +220,7 @@ TypeParameterType _encodeHelper(
   );
 }
 
-bool _canSerialize(JsonSerializable config, DartType type) {
+bool _canSerialize(ClassConfig config, DartType type) {
   if (type is InterfaceType) {
     final toJsonMethod = _toJsonMethod(type);
 
@@ -238,7 +239,7 @@ bool _canSerialize(JsonSerializable config, DartType type) {
 
 /// Returns an instantiation of [ctorParamType] by providing argument types
 /// derived by matching corresponding type parameters from [classType].
-InterfaceType _instantiate(
+InterfaceType? _instantiate(
   InterfaceType ctorParamType,
   InterfaceType classType,
 ) {
@@ -260,13 +261,13 @@ InterfaceType _instantiate(
   }
 
   return ctorParamType.element.instantiate(
-    typeArguments: argTypes,
+    typeArguments: argTypes.cast<DartType>(),
     // TODO: not 100% sure nullabilitySuffix is right... Works for now
     nullabilitySuffix: NullabilitySuffix.none,
   );
 }
 
-JsonSerializable _annotation(JsonSerializable config, InterfaceType source) {
+ClassConfig? _annotation(ClassConfig config, InterfaceType source) {
   final annotations = const TypeChecker.fromRuntime(JsonSerializable)
       .annotationsOfExact(source.element, throwOnUnresolved: false)
       .toList();
@@ -282,6 +283,6 @@ JsonSerializable _annotation(JsonSerializable config, InterfaceType source) {
   );
 }
 
-MethodElement _toJsonMethod(DartType type) => typeImplementations(type)
+MethodElement? _toJsonMethod(DartType type) => typeImplementations(type)
     .map((dt) => dt is InterfaceType ? dt.getMethod('toJson') : null)
-    .firstWhere((me) => me != null, orElse: () => null);
+    .firstWhereOrNull((me) => me != null);

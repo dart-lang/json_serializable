@@ -7,18 +7,18 @@ import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:meta/meta.dart' show alwaysThrows, required;
 import 'package:source_gen/source_gen.dart';
 
 import 'helper_core.dart';
+import 'type_helpers/config_types.dart';
 
 const _jsonKeyChecker = TypeChecker.fromRuntime(JsonKey);
 
-DartObject _jsonKeyAnnotation(FieldElement element) =>
+DartObject? _jsonKeyAnnotation(FieldElement element) =>
     _jsonKeyChecker.firstAnnotationOf(element) ??
     (element.getter == null
         ? null
-        : _jsonKeyChecker.firstAnnotationOf(element.getter));
+        : _jsonKeyChecker.firstAnnotationOf(element.getter!));
 
 ConstantReader jsonKeyAnnotation(FieldElement element) =>
     ConstantReader(_jsonKeyAnnotation(element));
@@ -43,7 +43,7 @@ String pascalCase(String input) {
 
 String _fixCase(String input, String separator) =>
     input.replaceAllMapped(_upperCase, (match) {
-      var lower = match.group(0).toLowerCase();
+      var lower = match.group(0)!.toLowerCase();
 
       if (match.start > 0) {
         lower = '$separator$lower';
@@ -52,13 +52,12 @@ String _fixCase(String input, String separator) =>
       return lower;
     });
 
-@alwaysThrows
-void throwUnsupported(FieldElement element, String message) =>
+Never throwUnsupported(FieldElement element, String message) =>
     throw InvalidGenerationSourceError(
         'Error with `@JsonKey` on `${element.name}`. $message',
         element: element);
 
-FieldRename _fromDartObject(ConstantReader reader) => reader.isNull
+FieldRename? _fromDartObject(ConstantReader reader) => reader.isNull
     ? null
     : enumValueForDartObject(
         reader.objectValue,
@@ -76,18 +75,18 @@ T enumValueForDartObject<T>(
 /// Return an instance of [JsonSerializable] corresponding to a the provided
 /// [reader].
 JsonSerializable _valueForAnnotation(ConstantReader reader) => JsonSerializable(
-      anyMap: reader.read('anyMap').literalValue as bool,
-      checked: reader.read('checked').literalValue as bool,
-      createFactory: reader.read('createFactory').literalValue as bool,
-      createToJson: reader.read('createToJson').literalValue as bool,
+      anyMap: reader.read('anyMap').literalValue as bool?,
+      checked: reader.read('checked').literalValue as bool?,
+      createFactory: reader.read('createFactory').literalValue as bool?,
+      createToJson: reader.read('createToJson').literalValue as bool?,
       disallowUnrecognizedKeys:
-          reader.read('disallowUnrecognizedKeys').literalValue as bool,
-      explicitToJson: reader.read('explicitToJson').literalValue as bool,
+          reader.read('disallowUnrecognizedKeys').literalValue as bool?,
+      explicitToJson: reader.read('explicitToJson').literalValue as bool?,
       fieldRename: _fromDartObject(reader.read('fieldRename')),
       genericArgumentFactories:
-          reader.read('genericArgumentFactories').literalValue as bool,
-      ignoreUnannotated: reader.read('ignoreUnannotated').literalValue as bool,
-      includeIfNull: reader.read('includeIfNull').literalValue as bool,
+          reader.read('genericArgumentFactories').literalValue as bool?,
+      ignoreUnannotated: reader.read('ignoreUnannotated').literalValue as bool?,
+      includeIfNull: reader.read('includeIfNull').literalValue as bool?,
     );
 
 /// Returns a [JsonSerializable] with values from the [JsonSerializable]
@@ -99,14 +98,14 @@ JsonSerializable _valueForAnnotation(ConstantReader reader) => JsonSerializable(
 /// Note: if [JsonSerializable.genericArgumentFactories] is `false` for [reader]
 /// and `true` for [config], the corresponding field in the return value will
 /// only be `true` if [classElement] has type parameters.
-JsonSerializable mergeConfig(
-  JsonSerializable config,
+ClassConfig mergeConfig(
+  ClassConfig config,
   ConstantReader reader, {
-  @required ClassElement classElement,
+  required ClassElement classElement,
 }) {
   final annotation = _valueForAnnotation(reader);
 
-  return JsonSerializable(
+  return ClassConfig(
     anyMap: annotation.anyMap ?? config.anyMap,
     checked: annotation.checked ?? config.checked,
     createFactory: annotation.createFactory ?? config.createFactory,
@@ -137,7 +136,7 @@ final _enumMapExpando = Expando<Map<FieldElement, dynamic>>();
 /// used if it's set and not `null`.
 ///
 /// If [targetType] is not an enum, `null` is returned.
-Map<FieldElement, dynamic> enumFieldsMap(DartType targetType) {
+Map<FieldElement, dynamic>? enumFieldsMap(DartType targetType) {
   MapEntry<FieldElement, dynamic> _generateEntry(FieldElement fe) {
     final annotation =
         const TypeChecker.fromRuntime(JsonValue).firstAnnotationOfExact(fe);
@@ -179,7 +178,7 @@ Map<FieldElement, dynamic> enumFieldsMap(DartType targetType) {
 /// with its values.
 ///
 /// Otherwise, `null`.
-Iterable<FieldElement> iterateEnumFields(DartType targetType) =>
+Iterable<FieldElement>? iterateEnumFields(DartType targetType) =>
     enumFieldsMap(targetType)?.keys;
 
 /// Returns a quoted String literal for [value] that can be used in generated
@@ -191,7 +190,7 @@ String escapeDartString(String value) {
   var canBeRaw = true;
 
   value = value.replaceAllMapped(_escapeRegExp, (match) {
-    final value = match[0];
+    final value = match[0]!;
     if (value == "'") {
       hasSingleQuote = true;
       return value;
@@ -267,8 +266,8 @@ String _getHexLiteral(String input) {
 extension DartTypeExtension on DartType {
   bool isAssignableTo(DartType other) =>
       // If the library is `null`, treat it like dynamic => `true`
-      element.library == null ||
-      element.library.typeSystem.isAssignableTo(this, other);
+      element!.library == null ||
+      element!.library!.typeSystem.isAssignableTo(this, other);
 }
 
 extension TypeExtension on DartType {

@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:analyzer/dart/element/type.dart';
+import 'package:collection/collection.dart';
 
 import '../constants.dart';
 import '../shared_checkers.dart';
@@ -17,7 +18,7 @@ class MapHelper extends TypeHelper<TypeHelperContextWithConfig> {
   const MapHelper();
 
   @override
-  String serialize(
+  String? serialize(
     DartType targetType,
     String expression,
     TypeHelperContextWithConfig context,
@@ -50,7 +51,7 @@ class MapHelper extends TypeHelper<TypeHelperContextWithConfig> {
   }
 
   @override
-  String deserialize(
+  String? deserialize(
     DartType targetType,
     String expression,
     TypeHelperContextWithConfig context,
@@ -123,7 +124,7 @@ class MapHelper extends TypeHelper<TypeHelperContextWithConfig> {
 
     final toFromString = _forType(keyArg);
     if (toFromString != null) {
-      keyUsage = toFromString.deserialize(keyArg, keyUsage, false, true);
+      keyUsage = toFromString.deserialize(keyArg, keyUsage, false, true)!;
     }
 
     return '($expression $mapCast)$optionalQuestion.map( '
@@ -142,8 +143,8 @@ final _instances = [
   uriString,
 ];
 
-ToFromStringHelper _forType(DartType type) =>
-    _instances.singleWhere((i) => i.matches(type), orElse: () => null);
+ToFromStringHelper? _forType(DartType type) =>
+    _instances.singleWhereOrNull((i) => i.matches(type));
 
 /// Returns `true` if [keyType] can be automatically converted to/from String –
 /// and is therefor usable as a key in a [Map].

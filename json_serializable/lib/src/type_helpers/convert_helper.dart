@@ -18,16 +18,16 @@ class ConvertData {
 }
 
 abstract class TypeHelperContextWithConvert extends TypeHelperContext {
-  ConvertData get serializeConvertData;
+  ConvertData? get serializeConvertData;
 
-  ConvertData get deserializeConvertData;
+  ConvertData? get deserializeConvertData;
 }
 
 class ConvertHelper extends TypeHelper<TypeHelperContextWithConvert> {
   const ConvertHelper();
 
   @override
-  String serialize(
+  String? serialize(
     DartType targetType,
     String expression,
     TypeHelperContextWithConvert context,
@@ -43,7 +43,7 @@ class ConvertHelper extends TypeHelper<TypeHelperContextWithConvert> {
   }
 
   @override
-  String deserialize(
+  String? deserialize(
     DartType targetType,
     String expression,
     TypeHelperContextWithConvert context,

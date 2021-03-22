@@ -16,8 +16,8 @@ import 'settings.dart';
 /// [formatOutput] is called to format the generated code. If not provided,
 /// the default Dart code formatter is used.
 Builder jsonPartBuilder({
-  String Function(String code) formatOutput,
-  JsonSerializable config,
+  String Function(String code)? formatOutput,
+  JsonSerializable? config,
 }) {
   final settings = Settings(config: config);
 

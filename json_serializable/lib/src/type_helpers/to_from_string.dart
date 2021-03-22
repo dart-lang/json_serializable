@@ -48,7 +48,7 @@ class ToFromStringHelper {
 
   bool matches(DartType type) => _checker.isExactlyType(type);
 
-  String serialize(
+  String? serialize(
     DartType type,
     String expression,
     bool nullable,
@@ -64,7 +64,7 @@ class ToFromStringHelper {
     return '$expression.$_toString';
   }
 
-  String deserialize(
+  String? deserialize(
     DartType type,
     String expression,
     bool nullable,

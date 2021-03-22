@@ -12,7 +12,7 @@ class UriHelper extends TypeHelper {
   const UriHelper();
 
   @override
-  String serialize(
+  String? serialize(
     DartType targetType,
     String expression,
     TypeHelperContext context,
@@ -24,7 +24,7 @@ class UriHelper extends TypeHelper {
       );
 
   @override
-  String deserialize(
+  String? deserialize(
     DartType targetType,
     String expression,
     TypeHelperContext context,

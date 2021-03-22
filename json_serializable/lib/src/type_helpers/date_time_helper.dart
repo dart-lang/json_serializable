@@ -12,7 +12,7 @@ class DateTimeHelper extends TypeHelper {
   const DateTimeHelper();
 
   @override
-  String serialize(
+  String? serialize(
     DartType targetType,
     String expression,
     TypeHelperContext context,
@@ -24,7 +24,7 @@ class DateTimeHelper extends TypeHelper {
       );
 
   @override
-  String deserialize(
+  String? deserialize(
     DartType targetType,
     String expression,
     TypeHelperContext context,

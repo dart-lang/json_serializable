@@ -6,6 +6,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 import 'type_helper.dart';
 import 'type_helpers/big_int_helper.dart';
+import 'type_helpers/config_types.dart';
 import 'type_helpers/convert_helper.dart';
 import 'type_helpers/date_time_helper.dart';
 import 'type_helpers/duration_helper.dart';
@@ -44,7 +45,24 @@ class Settings {
 
   final JsonSerializable _config;
 
-  JsonSerializable get config => _config.withDefaults();
+  ClassConfig get config => ClassConfig(
+        checked: _config.checked ?? ClassConfig.defaults.checked,
+        anyMap: _config.anyMap ?? ClassConfig.defaults.anyMap,
+        createFactory:
+            _config.createFactory ?? ClassConfig.defaults.createFactory,
+        createToJson: _config.createToJson ?? ClassConfig.defaults.createToJson,
+        ignoreUnannotated:
+            _config.ignoreUnannotated ?? ClassConfig.defaults.ignoreUnannotated,
+        explicitToJson:
+            _config.explicitToJson ?? ClassConfig.defaults.explicitToJson,
+        includeIfNull:
+            _config.includeIfNull ?? ClassConfig.defaults.includeIfNull,
+        genericArgumentFactories: _config.genericArgumentFactories ??
+            ClassConfig.defaults.genericArgumentFactories,
+        fieldRename: _config.fieldRename ?? ClassConfig.defaults.fieldRename,
+        disallowUnrecognizedKeys: _config.disallowUnrecognizedKeys ??
+            ClassConfig.defaults.disallowUnrecognizedKeys,
+      );
 
   /// Creates an instance of [Settings].
   ///
@@ -52,9 +70,9 @@ class Settings {
   /// [BigIntHelper], [DateTimeHelper], [DurationHelper], [JsonHelper], and
   /// [UriHelper].
   const Settings({
-    JsonSerializable config,
-    List<TypeHelper> typeHelpers,
-  })  : _config = config ?? JsonSerializable.defaults,
+    JsonSerializable? config,
+    List<TypeHelper>? typeHelpers,
+  })  : _config = config ?? ClassConfig.defaults,
         _typeHelpers = typeHelpers ?? defaultHelpers;
 
   /// Creates an instance of [Settings].
@@ -65,7 +83,7 @@ class Settings {
   /// [UriHelper].
   factory Settings.withDefaultHelpers(
     Iterable<TypeHelper> typeHelpers, {
-    JsonSerializable config,
+    JsonSerializable? config,
   }) =>
       Settings(
         config: config,

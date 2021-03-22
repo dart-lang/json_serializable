@@ -15,7 +15,7 @@ class EnumHelper extends TypeHelper<TypeHelperContextWithConfig> {
   const EnumHelper();
 
   @override
-  String serialize(
+  String? serialize(
     DartType targetType,
     String expression,
     TypeHelperContextWithConfig context,
@@ -32,7 +32,7 @@ class EnumHelper extends TypeHelper<TypeHelperContextWithConfig> {
   }
 
   @override
-  String deserialize(
+  String? deserialize(
     DartType targetType,
     String expression,
     TypeHelperContextWithConfig context,
@@ -69,9 +69,9 @@ class EnumHelper extends TypeHelper<TypeHelperContextWithConfig> {
 }
 
 String _constMapName(DartType targetType) =>
-    '_\$${targetType.element.name}EnumMap';
+    '_\$${targetType.element!.name}EnumMap';
 
-String _enumValueMapFromType(DartType targetType) {
+String? _enumValueMapFromType(DartType targetType) {
   final enumMap = enumFieldsMap(targetType);
 
   if (enumMap == null) {
@@ -79,7 +79,7 @@ String _enumValueMapFromType(DartType targetType) {
   }
 
   final items = enumMap.entries
-      .map((e) => '  ${targetType.element.name}.${e.key.name}: '
+      .map((e) => '  ${targetType.element!.name}.${e.key.name}: '
           '${jsonLiteralAsDart(e.value)},')
       .join();
 

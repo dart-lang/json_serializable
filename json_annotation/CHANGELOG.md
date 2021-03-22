@@ -1,7 +1,9 @@
-## 4.0.1-dev
+## 4.0.1
 
 - Fix a potential error with `checked: true` when `ArgumentError.message` is 
   `null`.
+- Updated `JsonSerializable.fromJson` to handle `null` values.
+- Deprecate `JsonSerializable` `defaults` and `withDefaults()`.
 
 ## 4.0.0
 

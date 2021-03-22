@@ -13,7 +13,7 @@ class ValueHelper extends TypeHelper {
   const ValueHelper();
 
   @override
-  String serialize(
+  String? serialize(
     DartType targetType,
     String expression,
     TypeHelperContext context,
@@ -28,7 +28,7 @@ class ValueHelper extends TypeHelper {
   }
 
   @override
-  String deserialize(
+  String? deserialize(
     DartType targetType,
     String expression,
     TypeHelperContext context,

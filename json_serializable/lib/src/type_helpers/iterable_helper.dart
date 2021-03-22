@@ -15,7 +15,7 @@ class IterableHelper extends TypeHelper<TypeHelperContextWithConfig> {
   const IterableHelper();
 
   @override
-  String serialize(
+  String? serialize(
     DartType targetType,
     String expression,
     TypeHelperContextWithConfig context,
@@ -30,7 +30,7 @@ class IterableHelper extends TypeHelper<TypeHelperContextWithConfig> {
     // Although it's possible that child elements may be marked unsafe
 
     var isList = _coreListChecker.isAssignableFromType(targetType);
-    final subField = context.serialize(itemType, closureArg);
+    final subField = context.serialize(itemType, closureArg)!;
 
     var optionalQuestion = targetType.isNullableType ? '?' : '';
 
@@ -59,7 +59,7 @@ class IterableHelper extends TypeHelper<TypeHelperContextWithConfig> {
   }
 
   @override
-  String deserialize(
+  String? deserialize(
     DartType targetType,
     String expression,
     TypeHelperContext context,
@@ -73,7 +73,7 @@ class IterableHelper extends TypeHelper<TypeHelperContextWithConfig> {
 
     final iterableGenericType = coreIterableGenericType(targetType);
 
-    final itemSubVal = context.deserialize(iterableGenericType, closureArg);
+    final itemSubVal = context.deserialize(iterableGenericType, closureArg)!;
 
     var output = '$expression as List<dynamic>';
 

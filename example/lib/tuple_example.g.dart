@@ -19,8 +19,8 @@ Tuple<T, S> _$TupleFromJson<T, S>(
 
 Map<String, dynamic> _$TupleToJson<T, S>(
   Tuple<T, S> instance,
-  Object Function(T value) toJsonT,
-  Object Function(S value) toJsonS,
+  Object? Function(T value) toJsonT,
+  Object? Function(S value) toJsonS,
 ) =>
     <String, dynamic>{
       'value1': toJsonT(instance.value1),

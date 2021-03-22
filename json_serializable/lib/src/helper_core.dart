@@ -4,7 +4,6 @@
 
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
-import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 import 'package:source_gen/source_gen.dart';
 
@@ -12,12 +11,13 @@ import 'constants.dart';
 import 'json_key_utils.dart';
 import 'type_helper.dart';
 import 'type_helper_ctx.dart';
+import 'type_helpers/config_types.dart';
 import 'unsupported_type_error.dart';
 import 'utils.dart';
 
 abstract class HelperCore {
   final ClassElement element;
-  final JsonSerializable config;
+  final ClassConfig config;
 
   HelperCore(this.element, this.config);
 
@@ -48,7 +48,7 @@ abstract class HelperCore {
       genericClassArguments(element, withConstraints);
 
   @protected
-  JsonKey jsonKeyFor(FieldElement field) => jsonKeyForField(field, config);
+  KeyConfig jsonKeyFor(FieldElement field) => jsonKeyForField(field, config);
 
   @protected
   TypeHelperCtx getHelperContext(FieldElement field) =>
@@ -62,7 +62,7 @@ InvalidGenerationSourceError createInvalidGenerationError(
 ) {
   var message = 'Could not generate `$targetMember` code for `${field.name}`';
 
-  String todo;
+  String? todo;
   if (error.type is TypeParameterType) {
     message = '$message because of type '
         '`${error.type.getDisplayString(withNullability: false)}` (type parameter)';
@@ -76,7 +76,7 @@ $converterOrKeyInstructions
     message = '$message because of type `${typeToCode(error.type)}`';
   } else {
     todo = '''
-To support the type `${error.type.element.name}` you can:
+To support the type `${error.type.element!.name}` you can:
 $converterOrKeyInstructions''';
   }
 
@@ -112,13 +112,13 @@ $converterOrKeyInstructions''';
 /// ```
 /// "<T as num, S>"
 /// ```
-String genericClassArguments(ClassElement element, bool withConstraints) {
+String genericClassArguments(ClassElement element, bool? withConstraints) {
   if (withConstraints == null || element.typeParameters.isEmpty) {
     return '';
   }
   final values = element.typeParameters.map((t) {
     if (withConstraints && t.bound != null) {
-      final boundCode = typeToCode(t.bound);
+      final boundCode = typeToCode(t.bound!);
       return '${t.name} extends $boundCode';
     } else {
       return t.name;

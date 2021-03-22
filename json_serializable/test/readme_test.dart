@@ -9,7 +9,7 @@ import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
 void main() {
-  String readmeContent;
+  late String readmeContent;
 
   setUpAll(() {
     readmeContent = File('README.md').readAsStringSync();

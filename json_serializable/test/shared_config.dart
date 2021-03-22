@@ -3,11 +3,12 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:json_serializable/src/type_helpers/config_types.dart';
 
 final jsonSerializableFields = generatorConfigDefaultJson.keys.toList();
 
 final generatorConfigDefaultJson = Map<String, dynamic>.unmodifiable(
-    const JsonSerializable().withDefaults().toJson());
+    ClassConfig.defaults.withDefaults().toJson());
 
 final generatorConfigNonDefaultJson =
     Map<String, dynamic>.unmodifiable(const JsonSerializable(

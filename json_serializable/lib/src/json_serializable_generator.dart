@@ -30,8 +30,8 @@ class JsonSerializableGenerator
   /// [BigIntHelper], [DateTimeHelper], [DurationHelper], [JsonHelper], and
   /// [UriHelper].
   factory JsonSerializableGenerator({
-    JsonSerializable config,
-    List<TypeHelper> typeHelpers,
+    JsonSerializable? config,
+    List<TypeHelper>? typeHelpers,
   }) =>
       JsonSerializableGenerator.fromSettings(Settings(
         config: config,
@@ -46,7 +46,7 @@ class JsonSerializableGenerator
   /// [UriHelper].
   factory JsonSerializableGenerator.withDefaultHelpers(
     Iterable<TypeHelper> typeHelpers, {
-    JsonSerializable config,
+    JsonSerializable? config,
   }) =>
       JsonSerializableGenerator(
         config: config,
@@ -61,7 +61,7 @@ class JsonSerializableGenerator
     ConstantReader annotation,
     BuildStep buildStep,
   ) {
-    if (!element.library.isNonNullableByDefault) {
+    if (!element.library!.isNonNullableByDefault) {
       throw InvalidGenerationSourceError(
         'Generator cannot target libraries that have not been migrated to '
         'null-safety.',
@@ -76,8 +76,7 @@ class JsonSerializableGenerator
       );
     }
 
-    final classElement = element as ClassElement;
-    final helper = GeneratorHelper(_settings, classElement, annotation);
+    final helper = GeneratorHelper(_settings, element, annotation);
     return helper.generate();
   }
 }

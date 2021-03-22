@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:analyzer/dart/element/type.dart';
+import 'package:collection/collection.dart';
 import 'package:source_gen/source_gen.dart' show TypeChecker;
 
 import 'helper_core.dart';
@@ -28,7 +29,7 @@ DartType coreIterableGenericType(DartType type) =>
 List<DartType> typeArgumentsOf(DartType type, TypeChecker checker) {
   final implementation = _getImplementationType(type, checker) as InterfaceType;
 
-  return implementation?.typeArguments;
+  return implementation.typeArguments;
 }
 
 /// A [TypeChecker] for [String], [bool] and [num].
@@ -79,11 +80,10 @@ Iterable<DartType> typeImplementations(DartType type) sync* {
     yield* type.mixins.expand(typeImplementations);
 
     if (type.superclass != null) {
-      yield* typeImplementations(type.superclass);
+      yield* typeImplementations(type.superclass!);
     }
   }
 }
 
-DartType _getImplementationType(DartType type, TypeChecker checker) =>
-    typeImplementations(type)
-        .firstWhere(checker.isExactlyType, orElse: () => null);
+DartType? _getImplementationType(DartType type, TypeChecker checker) =>
+    typeImplementations(type).firstWhereOrNull(checker.isExactlyType);

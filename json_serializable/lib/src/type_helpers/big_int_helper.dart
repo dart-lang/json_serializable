@@ -12,7 +12,7 @@ class BigIntHelper extends TypeHelper {
   const BigIntHelper();
 
   @override
-  String serialize(
+  String? serialize(
     DartType targetType,
     String expression,
     TypeHelperContext context,
@@ -24,7 +24,7 @@ class BigIntHelper extends TypeHelper {
       );
 
   @override
-  String deserialize(
+  String? deserialize(
     DartType targetType,
     String expression,
     TypeHelperContext context,
