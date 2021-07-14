@@ -53,7 +53,7 @@ class Order {
 
   Duration? duration;
 
-  final Category? category;
+  final Category category;
   final UnmodifiableListView<Item>? items;
   Platform? platform;
   Map<String, Platform>? altPlatforms;
@@ -216,4 +216,24 @@ class UnknownEnumValue {
 
   factory UnknownEnumValue.fromJson(Map<String, dynamic> json) =>
       _$UnknownEnumValueFromJson(json);
+}
+
+@JsonSerializable(createToJson: false)
+class NullableUnknownEnumValue {
+  @JsonKey()
+  Category? enumValue;
+
+  @JsonKey()
+  Iterable<Category?>? enumIterable;
+
+  @JsonKey()
+  List<Category?>? enumList;
+
+  @JsonKey()
+  Set<Category?>? enumSet;
+
+  NullableUnknownEnumValue();
+
+  factory NullableUnknownEnumValue.fromJson(Map<String, dynamic> json) =>
+      _$NullableUnknownEnumValueFromJson(json);
 }

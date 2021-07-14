@@ -292,4 +292,18 @@ void main() {
     expect(instance.enumList, [Category.notDiscoveredYet]);
     expect(instance.enumSet, [Category.notDiscoveredYet]);
   });
+
+  test('NullableUnknownEnumValue', () {
+    final instance = NullableUnknownEnumValue.fromJson({
+      'enumValue': 'nope',
+      'enumIterable': ['nope'],
+      'enumList': ['nope'],
+      'enumSet': ['nope'],
+    });
+
+    expect(instance.enumValue, null);
+    expect(instance.enumIterable, [null]);
+    expect(instance.enumList, [null]);
+    expect(instance.enumSet, [null]);
+  });
 }

@@ -86,7 +86,7 @@ Order _$OrderFromJson(Map<String, dynamic> json) {
     disallowNullValues: const ['count'],
   );
   return Order(
-    _$enumDecodeNullable(_$CategoryEnumMap, json['category']),
+    _$enumDecode(_$CategoryEnumMap, json['category']),
     (json['items'] as List<dynamic>?)
         ?.map((e) => Item.fromJson(e as Map<String, dynamic>)),
   )
@@ -138,7 +138,12 @@ K? _$enumDecodeNullable<K, V>(
   if (source == null) {
     return null;
   }
-  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
+  for (var element in enumValues.entries) {
+    if (element.value == source) {
+      return element.key;
+    }
+  }
+  return unknownValue;
 }
 
 const _$StatusCodeEnumMap = {
@@ -236,4 +241,17 @@ UnknownEnumValue _$UnknownEnumValueFromJson(Map<String, dynamic> json) =>
       ..enumSet = (json['enumSet'] as List<dynamic>)
           .map((e) => _$enumDecode(_$CategoryEnumMap, e,
               unknownValue: Category.notDiscoveredYet))
+          .toSet();
+
+NullableUnknownEnumValue _$NullableUnknownEnumValueFromJson(
+        Map<String, dynamic> json) =>
+    NullableUnknownEnumValue()
+      ..enumValue = _$enumDecodeNullable(_$CategoryEnumMap, json['enumValue'])
+      ..enumIterable = (json['enumIterable'] as List<dynamic>?)
+          ?.map((e) => _$enumDecodeNullable(_$CategoryEnumMap, e))
+      ..enumList = (json['enumList'] as List<dynamic>?)
+          ?.map((e) => _$enumDecodeNullable(_$CategoryEnumMap, e))
+          .toList()
+      ..enumSet = (json['enumSet'] as List<dynamic>?)
+          ?.map((e) => _$enumDecodeNullable(_$CategoryEnumMap, e))
           .toSet();

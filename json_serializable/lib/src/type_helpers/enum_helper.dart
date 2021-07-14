@@ -45,14 +45,13 @@ class EnumHelper extends TypeHelper<TypeHelperContextWithConfig> {
       return null;
     }
 
-    context.addMember(_enumDecodeHelper);
-
     String functionName;
     if (targetType.isNullableType || defaultProvided) {
       functionName = r'_$enumDecodeNullable';
       context.addMember(_enumDecodeHelperNullable);
     } else {
       functionName = r'_$enumDecode';
+      context.addMember(_enumDecodeHelper);
     }
 
     context.addMember(memberContent);
@@ -123,5 +122,10 @@ K? _$enumDecodeNullable<K, V>(
   if (source == null) {
     return null;
   }
-  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
+  for (var element in enumValues.entries) {
+    if (element.value == source) {
+      return element.key;
+    }
+  }
+  return unknownValue;
 }''';
